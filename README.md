@@ -14,4 +14,4 @@ pip install flask-bootstrap
 
 
 # 博客演示地址  
-`47.119.158.34`
+`http://47.119.158.34/`
