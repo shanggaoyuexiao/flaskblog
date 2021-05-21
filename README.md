@@ -13,4 +13,5 @@ pip install flask-migrate       发布命令工具，实现映射的命令
 pip install flask-bootstrap  
 
 
-[项目效果地址地址](链接地址"47.119.158.34")
+# 博客演示地址  
+'47.119.158.34'
