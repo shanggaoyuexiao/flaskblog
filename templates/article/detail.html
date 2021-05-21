@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}
+    文章详情
+{% endblock %}
+{% block style %}
+    {{ super() }}
+    <style>
+
+    </style>
+{% endblock %}
+{% block newcontent %}
+    <div class="container">
+        <h1 style="text-align: center">{{ articles.title }}</h1>
+        <!--这里加2个过滤器，第一个是二进制解码，第二个是禁止转义，浏览器可以识别标签，我们后端不对它提前识别-->
+        <div>{{ articles.content | cdecode | safe }}</div>
+        <h4 style="padding-top: 30px">评论列表:</h4>
+        <div style="">
+            {% for comment in articles.comments %}
+                <div>
+                    <span>{{ comment.user.username }}&nbsp;&nbsp</span>
+                    <span>{{ comment.cdatatime }}</span>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;{{ comment.comment }}</div>
+                    <p style="text-align: right"><a href="#box">回复</a>
+                </div>
+                <hr>
+            {% endfor %}
+            <h4>发表评论</h4>
+            <div>
+                <form action="{{ url_for('article.add_comment') }}" method="post">
+                    <!--我们要拿到文章的id，所以做一个隐藏的表单域-->
+                    <input type="hidden" name="aid" value="{{ articles.id }}">
+                    <p>
+                    <textarea id="box" name="comment" style="height: 100px;width: 50%">
+
+                    </textarea>
+                    <p>
+                        <input type="submit" value="评论">
+
+                    </p>
+                    </p>
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static',filename='tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/tiny.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,124 @@
+{# 继承bootstrap 想要继承这个模板先要安装flask-bootstrap #}
+{% extends "bootstrap/base.html" %}
+{% block title %}首页{% endblock %}
+{% block style %}
+    {{ super() }}
+    <style>
+        {#  这里写自定义的样式      #}
+    </style>
+{% endblock %}
+{% block navbar %}
+    <!--导航条-->
+    <nav class="navbar navbar-default" style="margin-bottom: 0;">
+        <!-- bootstrap中支持的容器模式 ，1流模式，默认100%的宽度适应  ：container-fluid
+                                        2居中对齐模式，内容留宽对齐居中，两边留白自适应 ：container
+        -->
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="../static/imgs/logo.jpg" width="30" height="30" alt="">
+            </a>
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">博客</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{{ url_for('index') }}">首页 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li><a href="#">资源</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">记录 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">随笔</a></li>
+                            <li><a href="#">数据库</a></li>
+                            <li><a href="#">项目</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">前端</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">后端</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="搜索关键字">
+                    </div>
+                    <button type="submit" class="btn btn-default">搜索</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <!--这里是判断有没有拿到用户对象-->
+                    {% if user %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">欢迎! {{ user.username }}<span
+                                    class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ url_for('user.change') }}">信息修改</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{{ url_for('article.add_article') }}">发表文章</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{{ url_for('user.logout') }}">退出</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li><a href="{{ url_for('user.login') }}">登录</a></li>          <!--如果想要在页面点击就可以跳转就是在a链接里加跳转路由-->
+                        <li><a href="{{ url_for('user.register') }}">注册</a></li>
+                    {% endif %}
+                    <li class="dropdown">
+                </ul>
+                </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+{% endblock %}
+{% block content %}
+    {% block newcontent %}
+        <!--巨幕    在bootstrap JS插件carousel-->
+        <div class="container">
+            <div class="jumbotron"
+                 style="height: 400px; width: auto;background-image: linear-gradient(60deg ,#CCFBFF,#EF96C5);">
+                <h1>大道至简</h1>
+                {#            <p>拒绝一切花里胡哨</p>#}
+                {#            <p><a class="btn btn-primary btn-lg" href="#" role="button"></a></p>#}
+            </div>
+        </div>
+        <!-- 缩略图 -->
+        <div class="container">
+        <div class="row"></div>
+        <h2>最新文章</h2>
+        {% for article in articles %}
+            <div class="col-lg-3">
+                <div class="thumbnail" style="padding: 0px;">
+                    <img src="../static/imgs/0.jpg" alt="...">
+                    <div class="caption">
+                        <h3>{{ article.title }}</h3>    <!--注意，如果我们要取到内容的话，由于模板带了标签，所以我们要把标签去掉，就需要用到过滤器。还要用图片也要用到过滤器-->
+                        <p>{{ article.pdatetime }}</p>
+                        <p><a href="{{ url_for('article.detail') }}?aid={{ article.id }}" class="btn btn-primary"
+                              role="button">Button</a></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endblock %}
+{% block footer %}
+    <div class="container">
+        <div class="row"></div>
+        <h2 style="text-align: center;">友情链接</h2>
+        <p style="text-align: center; font-size: 20px;"><a href="http://book.zongheng.com/book/1108896.html">天道修仙路</a></p>
+        <p style="text-align: center; font-size: 20px;"><a href="">GitHub地址</a></p>
+        <p style="text-align: center;">京ICP备11008000号-6京公网安备11010802020853</p>
+    </div>
+    </div>
+{% endblock %}
+{% endblock %}

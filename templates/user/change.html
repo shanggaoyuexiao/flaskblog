@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}
+    用户中心
+{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <style>
+        #left {
+            width: 25%;
+            height: 600px;
+        }
+    </style>
+{% endblock %}
+{% block newcontent %}
+    <div style="height: 600px;background-image: linear-gradient(60deg, #9FA5D5, #E8F5C8);position: relative">
+    <div class="container"
+         style="height: 600px;width:70%;border: 1px black solid;position: center;box-shadow: 0px 10px 20px 10px gray;">
+        <h1 style="text-align: center">用户信息修改</h1>
+        <div id="tab" style="text-align: center;font-size: 20px">
+        </div>
+        <div class="logintab">
+            <!--给路由加一个参数1表示是用户名和面目登录-->
+            <form class="form-horizontal" method="post" action="{{ url_for('user.change') }}">
+                <div class="form-group">
+
+                    <div class="col-md-6 col-md-offset-3">
+                        <input type="text" class="form-control" id="inputUsername" placeholder="username"
+                               name="username">
+                    </div>
+                </div>
+                {#                <div class="form-group">#}
+                {#                    <div class="col-md-6 col-md-offset-3">#}
+                {#                        <input type="password" class="form-control" id="inputPassword" placeholder="password"#}
+                {#                               name="password"></div>#}
+                {#                </div>#}
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3">
+                        <input type="password" class="form-control" id="inputPhone" placeholder="phone"
+                               name="phone"><span></span></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-10">
+                        <button type="submit" class="btn btn-primary col-md-3">修&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;改
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $('#inputPhone').blur(function () {
+            let phone = $(this).val();
+            let span_ele = $(this).next('span');
+            if (phone.length == 11) {
+                span_ele.text('');
+                $.get('{{ url_for('user.check_phone') }}', {phone: phone}, function (data) {
+                    // {#console.log(data);#}
+                    if (data.code != 200) {
+                        span_ele.css({"color": "#ff0011", "font-size": "12px"});
+                        span_ele.text(data.msg);
+                    }
+                })
+            } else {
+                span_ele.css({"color": "#ff0011", "font-size": "12px"});
+                span_ele.text('手机格式错误');
+            }
+
+        })
+    </script>
+{% endblock %}

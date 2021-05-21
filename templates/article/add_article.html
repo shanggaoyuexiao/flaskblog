@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}
+    发表文章
+{% endblock %}
+{% block newcontent %}
+    <div class="container">
+        <form action="{{ url_for('article.add_article') }}" method="post">
+            <p><input type="text" class="form-control" id="InputTitle" name="title"
+                      placeholder="请输入文章标题">
+            </p>
+            <p>
+                <select name="type" class="form-control">
+                    <option value="0">请选择文章分类</option>
+                    {% for type in types %}
+                        <option value="{{ type.id }}">{{ type.type_name }}</option>
+                    {% endfor %}
+
+                </select>
+            </p>
+            <p>
+                <textarea name="content" class="mytextarea">
+
+                </textarea>
+            <p style="text-align: right">
+                <button type="submit" class="btn btn-primary">发表文章</button>
+            </p>
+            </p>
+        </form>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static',filename='tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/tiny.js') }}"></script>
+{% endblock %}
