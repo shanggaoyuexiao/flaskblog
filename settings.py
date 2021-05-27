@@ -4,7 +4,7 @@ import os
 class Config:
     DEBUG = True
     # mysql+pymysql://user:password@hostip:port/databasename
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:1175748902@Quan@47.119.158.34:3306/blog'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:这里写自己数据库的密码@47.119.158.34:3306/blog'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = True
     # secret_key，这是用session必须要的配置
